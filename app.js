@@ -16,20 +16,28 @@ const winningPattern = [
 ];
 
 let turnO = true;
+let countClick = 0
 
 allBox.forEach((box) => {
     box.addEventListener("click", () => {
-        if(turnO){
+        if (turnO) {
             box.innerText = "O";
+            box.style.color = "Brown";
             turnO = false;
         }
-        else{
+        else {
             box.innerText = "X";
+            box.style.color = "MidnightBlue"
             turnO = true;
         }
         box.disabled = true;
 
-        whoWinner();
+        countClick++;
+        if (countClick === 9) {
+            drawMsg();
+            // disableBoxes();
+        }else 
+            whoWinner();
     })
 })
 
@@ -39,39 +47,43 @@ const showWinner = (winner) => {
 }
 
 const disableBoxes = () => {
-    for(let box of allBox){
+    for (let box of allBox) {
         box.disabled = true;
     }
 }
-
 const resetGame = () => {
     turnO = true;
     upperContainer.classList.add("hide");
+    countClick = 0;
     enableGame();
 }
 
 const enableGame = () => {
-    for(let box of allBox){
+    for (let box of allBox) {
         box.disabled = false;
         box.innerText = "";
     }
 }
 
+const drawMsg = () => {
+    winMsg.innerText = "The match was draw";
+    upperContainer.classList.remove("hide");
+}
+
 const whoWinner = () => {
-    for(let pattern of winningPattern){
-        console.log(pattern);
-        console.log(allBox[pattern[0]], allBox[pattern[1]], allBox[pattern[2]]);
+    for (let pattern of winningPattern) {
         let pos1val = allBox[pattern[0]].innerText;
         let pos2val = allBox[pattern[1]].innerText;
         let pos3val = allBox[pattern[2]].innerText;
 
-        if(pos1val != "" && pos2val != "" && pos3val != ""){
-            if(pos1val === pos2val && pos2val === pos3val){
+        if (pos1val != "" && pos2val != "" && pos3val != "") {
+            if (pos1val === pos2val && pos2val === pos3val) {
                 disableBoxes();
                 showWinner(pos1val);
             }
         }
     }
+
 }
 
 resetBtn.addEventListener("click", resetGame);
