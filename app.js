@@ -66,7 +66,7 @@ const enableGame = () => {
 }
 
 const drawMsg = () => {
-    winMsg.innerText = "The match was draw";
+    winMsg.innerText = "It's a Draw!";
     upperContainer.classList.remove("hide");
 }
 
